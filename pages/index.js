@@ -25,9 +25,34 @@ function App() {
   return (
     <div style={{ padding: 24 }}>
       <h1>💸 Tokenized T-Bill Simulator (Sepolia)</h1>
-      {address ? (
+      
+      {!address ? (
+        // Show the Connect Wallet button if no address is connected
+        <button 
+          style={{
+            background: 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)',
+            color: 'white',
+            border: 'none',
+            padding: '12px 24px',
+            borderRadius: '8px',
+            fontSize: '16px',
+            cursor: 'pointer',
+            transition: 'background 0.3s ease',
+          }} 
+          onClick={connect}
+          onMouseOver={(e) => e.target.style.opacity = '0.9'}
+          onMouseOut={(e) => e.target.style.opacity = '1'}>
+          Connect Wallet
+        </button>
+      ) : (
+        // Show the connected address if a wallet is connected
         <div>
           <p>Wallet Connected: {address}</p>
+        </div>
+      )}
+
+      {address && (
+        <div>
           <input
             type="number"
             placeholder="Enter ETH (Sepolia)"
@@ -44,8 +69,6 @@ function App() {
             </div>
           )}
         </div>
-      ) : (
-        <button onClick={connect}>Connect Wallet</button>
       )}
     </div>
   );
