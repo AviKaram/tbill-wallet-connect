@@ -1,14 +1,29 @@
+import { ConnectWallet } from "@thirdweb-dev/react";
+
+export default function Home() {
+  return (
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "100vh"
+    }}>
+      <ConnectWallet />
+    </div>
+  );
+}
 import { useAddress, useMetamask, ThirdwebProvider } from "@thirdweb-dev/react";
 import { useState } from "react";
 
 const activeChain = "sepolia"; // Simulation only!
 
 function App() {
-  const connect = useMetamask(); // Connect button functionality
-  const address = useAddress(); // Get current wallet address
+  const connect = useMetamask();
+  const address = useAddress();
   const [amount, setAmount] = useState("");
   const [result, setResult] = useState(null);
 
+  // Simulate T-Bill returns based on deposit
   const handleSimulate = () => {
     const amt = parseFloat(amount);
     if (isNaN(amt) || amt <= 0) return;
@@ -20,15 +35,6 @@ function App() {
       interest: interest.toFixed(3),
       total: (amt + interest).toFixed(3),
     });
-  };
-
-  // Handle the wallet connection button
-  const handleConnectClick = async () => {
-    try {
-      await connect();
-    } catch (error) {
-      console.error("Connection failed:", error);
-    }
   };
 
   return (
@@ -48,13 +54,13 @@ function App() {
             cursor: 'pointer',
             transition: 'background 0.3s ease',
           }} 
-          onClick={handleConnectClick}
+          onClick={connect}
           onMouseOver={(e) => e.target.style.opacity = '0.9'}
           onMouseOut={(e) => e.target.style.opacity = '1'}>
           Connect Wallet
         </button>
       ) : (
-        // Show the connected address if a wallet is connected
+        // Show the connected wallet address once connected
         <div>
           <p>Wallet Connected: {address}</p>
         </div>
