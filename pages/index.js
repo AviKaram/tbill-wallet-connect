@@ -4,8 +4,8 @@ import { useState } from "react";
 const activeChain = "sepolia"; // Simulation only!
 
 function App() {
-  const connect = useMetamask();
-  const address = useAddress();
+  const connect = useMetamask(); // Connect button functionality
+  const address = useAddress(); // Get current wallet address
   const [amount, setAmount] = useState("");
   const [result, setResult] = useState(null);
 
@@ -20,6 +20,15 @@ function App() {
       interest: interest.toFixed(3),
       total: (amt + interest).toFixed(3),
     });
+  };
+
+  // Handle the wallet connection button
+  const handleConnectClick = async () => {
+    try {
+      await connect();
+    } catch (error) {
+      console.error("Connection failed:", error);
+    }
   };
 
   return (
@@ -39,7 +48,7 @@ function App() {
             cursor: 'pointer',
             transition: 'background 0.3s ease',
           }} 
-          onClick={connect}
+          onClick={handleConnectClick}
           onMouseOver={(e) => e.target.style.opacity = '0.9'}
           onMouseOut={(e) => e.target.style.opacity = '1'}>
           Connect Wallet
